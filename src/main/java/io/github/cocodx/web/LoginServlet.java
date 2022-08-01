@@ -4,6 +4,7 @@ import io.github.cocodx.dao.UserDao;
 import io.github.cocodx.model.User;
 import io.github.cocodx.utils.DbUtil;
 import io.github.cocodx.utils.Md5Utils;
+import io.github.cocodx.utils.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -29,6 +30,11 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
+        if (!StringUtils.isNotEmpty(userName) || !StringUtils.isNotEmpty(password)){
+            request.setAttribute("error","用户名或者密码不能为null");
+            request.getRequestDispatcher("login.jsp").forward(request,response);
+        }
+
         String encryptPassword = Md5Utils.md5(password);
         String remember = request.getParameter("remember");
 

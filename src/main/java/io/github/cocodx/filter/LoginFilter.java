@@ -10,6 +10,7 @@ import java.io.IOException;
  * @author amazfit
  * @date 2022-08-01 下午11:55
  **/
+@Deprecated
 public class LoginFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
@@ -23,7 +24,7 @@ public class LoginFilter implements Filter {
         HttpSession session = request.getSession();
         Object currentUser = session.getAttribute("currentUser");
         String servletPath = request.getServletPath();
-        if(currentUser==null && !servletPath.contains("login") && !servletPath.contains("bootstrap") && !servletPath.contains("images")){
+        if(currentUser==null && !servletPath.contains("login") && !servletPath.contains("bootstrap") && !servletPath.contains("style") && !servletPath.contains("js") && !servletPath.contains("img")){
             response.sendRedirect("login.jsp");
         }else{
             filterChain.doFilter(servletRequest, servletResponse);
