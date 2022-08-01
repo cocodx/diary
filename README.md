@@ -46,3 +46,18 @@ CREATE TABLE `t_user`  (
 
 SET FOREIGN_KEY_CHECKS = 1;
 ```
+
+#### bootstrap用法
+navbar 基本的导航样式条
+![image](https://raw.githubusercontent.com/cocodx/Java-doc/master/images/Snipaste_2022-08-01_23-02-52.png)
+
+navbar-inverse 反色
+
+navbar-fixed-top 顶部固定
+
+vertical-align 这时干啥用的
+
+**padding和margin的区别，长宽高是啥height**
+
+**cookie session区别是啥**
+
