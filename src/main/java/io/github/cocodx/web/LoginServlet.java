@@ -3,6 +3,7 @@ package io.github.cocodx.web;
 import io.github.cocodx.dao.UserDao;
 import io.github.cocodx.model.User;
 import io.github.cocodx.utils.DbUtil;
+import io.github.cocodx.utils.Md5Utils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -31,12 +32,12 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
-
+        String encryptPassword = Md5Utils.md5(password);
         Connection connection = null;
         try {
             connection = DbUtil.connection();
 
-            User user = userDao.selectOne(connection,userName,password);
+            User user = userDao.selectOne(connection,userName,encryptPassword);
             if (user==null){
                 user = new User();
                 user.setUserName(userName);
