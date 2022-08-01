@@ -10,14 +10,15 @@ import java.sql.SQLException;
  **/
 public class DbUtil {
 
-    private static String dbUrl = "jdbc:mysql://localhost:3306/db_diary?characterEncoding=utf-8&useSSL=false&serverTimeZone=GMT%2B8";
-    private static String dbUserName="root";
-    private static String dbPassword="password";
-    private static String dbDriverName="com.mysql.cj.jdbc.Driver";
+//    private static String dbUrl = "jdbc:mysql://localhost:3306/db_diary?characterEncoding=utf-8&useSSL=false&serverTimeZone=GMT%2B8";
+//    private static String dbUserName="root";
+//    private static String dbPassword="password";
+//    private static String dbDriverName="com.mysql.cj.jdbc.Driver";
 
     public static Connection connection() throws ClassNotFoundException, SQLException {
-        Class.forName(dbDriverName);
-        Connection connection = DriverManager.getConnection(dbUrl, dbUserName, dbPassword);
+        Class.forName(PropertiesUtils.getValue("dbDriverName"));
+        Connection connection = DriverManager
+                .getConnection(PropertiesUtils.getValue("dbUrl"), PropertiesUtils.getValue("dbUserName"),PropertiesUtils.getValue("dbPassword") );
         return connection;
     }
 
