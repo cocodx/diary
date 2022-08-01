@@ -49,7 +49,7 @@ public class LoginServlet extends HttpServlet {
                     rememberMe(userName,password,response);
                 }
                 session.setAttribute("currentUser",user);
-                response.sendRedirect("main.jsp");
+                response.sendRedirect("mainTemp.jsp");
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
