@@ -17,15 +17,21 @@
 <div class="container">
     <div class="forms-container">
         <div class="signin-signup" >
-            <form action="" class="sign-in-form">
+            <form action="login" method="post" class="sign-in-form" onsubmit="return checkForm()">
                 <h2 class="title">登录</h2>
                 <div class="input-field">
                     <i class="fas fa-user"></i>
-                    <input type="text" placeholder="用户名">
+                    <input type="text" placeholder="用户名" id="userName" name="userName" value="${user.userName}">
                 </div>
                 <div class="input-field">
                     <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="密码">
+                    <input type="password" placeholder="密码" id="password" name="password" value="${user.password}">
+                </div>
+                <div class="input-field">
+                    <label class="checkbox">
+                        <input id="remember" name="remember" style="width: auto" type="checkbox" value="remember-me">
+                        记住我&nbsp;&nbsp;&nbsp;&nbsp;<font id="error" color="red">${error}</font>
+                    </label>
                 </div>
                 <input type="submit" value="登录" class="btn solid">
 

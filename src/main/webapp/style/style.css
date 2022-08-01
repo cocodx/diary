@@ -107,6 +107,12 @@ form.sign-up-form{
     color: #aaa;
     font-weight: 500;
 }
+.input-field label{
+    height: 55px;
+    width: 300px;
+    line-height: 55px;
+}
+
 .btn{
     width: 150px;
     height: 49px;

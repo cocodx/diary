@@ -91,8 +91,8 @@
 <div class="container">
       <form name="myForm" class="form-signin" action="login" method="post" onsubmit="return checkForm()">
         <h2 class="form-signin-heading">屌丝日记本</h2>
-        <input id="userName" name="userName" value="${user.userName }"  type="text" class="input-block-level" placeholder="屌丝名...">
-        <input id="password" name="password" value="${user.password }"   type="password" class="input-block-level" placeholder="屌丝码..." >
+        <input id="userName" name="userName" value="${user.userName}"  type="text" class="input-block-level" placeholder="屌丝名...">
+        <input id="password" name="password" value="${user.password}"   type="password" class="input-block-level" placeholder="屌丝码..." >
         <label class="checkbox">
           <input id="remember" name="remember" type="checkbox" value="remember-me">记住我 &nbsp;&nbsp;&nbsp;&nbsp; <font id="error" color="red">${error }</font>  
         </label>
