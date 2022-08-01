@@ -6,10 +6,7 @@ import io.github.cocodx.utils.DbUtil;
 import io.github.cocodx.utils.Md5Utils;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -33,6 +30,8 @@ public class LoginServlet extends HttpServlet {
         String userName = request.getParameter("userName");
         String password = request.getParameter("password");
         String encryptPassword = Md5Utils.md5(password);
+        String remember = request.getParameter("remember");
+
         Connection connection = null;
         try {
             connection = DbUtil.connection();
@@ -46,6 +45,9 @@ public class LoginServlet extends HttpServlet {
                 request.setAttribute("error","用户名或者密码不存在");
                 request.getRequestDispatcher("login.jsp").forward(request,response);
             }else{
+                if ("remember-me".equals(remember)){
+                    rememberMe(userName,password,response);
+                }
                 session.setAttribute("currentUser",user);
                 response.sendRedirect("main.jsp");
             }
@@ -58,5 +60,11 @@ public class LoginServlet extends HttpServlet {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    private void rememberMe(String userName, String password, HttpServletResponse response) {
+        Cookie user = new Cookie("user", userName + "-" + password);
+        user.setMaxAge(1*60*60*24*7);
+        response.addCookie(user);
     }
 }
