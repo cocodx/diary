@@ -22,7 +22,7 @@ public class UserDao {
      * @throws Exception
      */
     public User selectOne(Connection connection,String userName,String password) throws Exception {
-        User user = new User();
+        User user = null;
         String sql="select * from t_user where user_name=? and password=?";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1,userName);
@@ -30,6 +30,7 @@ public class UserDao {
 
         ResultSet resultSet = preparedStatement.executeQuery();
         if (resultSet.next()){
+            user = new User();
             user.setUserId(resultSet.getLong("user_id"));
             user.setUserName(userName);
             user.setPassword(password);

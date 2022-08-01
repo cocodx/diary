@@ -38,6 +38,7 @@ public class LoginServlet extends HttpServlet {
 
             User user = userDao.selectOne(connection,userName,password);
             if (user==null){
+                user = new User();
                 user.setUserName(userName);
                 user.setPassword(password);
                 request.setAttribute("user",user);
