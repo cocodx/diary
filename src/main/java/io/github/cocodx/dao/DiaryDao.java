@@ -4,6 +4,7 @@ import com.apifan.common.random.source.DateTimeSource;
 import com.apifan.common.random.source.NumberSource;
 import com.apifan.common.random.source.OtherSource;
 import io.github.cocodx.model.Diary;
+import io.github.cocodx.model.PageBean;
 import io.github.cocodx.utils.DateUtils;
 import io.github.cocodx.utils.DbUtil;
 
@@ -18,12 +19,15 @@ import java.util.List;
  **/
 public class DiaryDao {
 
-    public List<Diary> selectList(Connection connection) throws SQLException, ParseException {
+    public List<Diary> selectList(Connection connection,PageBean pageBean) throws SQLException, ParseException {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("SELECT d.*,dt.type_name FROM `t_diary` d\n" +
                 "INNER JOIN `t_diary_type` dt on d.type_id = dt.type_id ");
-        stringBuffer.append("order by d.release_date desc");
+        stringBuffer.append("order by d.release_date desc ");
+        stringBuffer.append("limit ?,?");
         PreparedStatement preparedStatement = connection.prepareStatement(stringBuffer.toString());
+        preparedStatement.setLong(1,pageBean.getStart());
+        preparedStatement.setLong(2,pageBean.getSize());
         ResultSet resultSet = preparedStatement.executeQuery();
         ArrayList<Diary> diaries = new ArrayList<>();
         while (resultSet.next()){
@@ -37,6 +41,20 @@ public class DiaryDao {
         }
         return diaries;
     }
+
+    public Long selectCount(Connection connection)throws Exception{
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("SELECT count(*) FROM `t_diary` d\n" +
+                "INNER JOIN `t_diary_type` dt on d.type_id = dt.type_id ");
+        PreparedStatement preparedStatement = connection.prepareStatement(stringBuffer.toString());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        Long count = 0L;
+        while (resultSet.next()){
+            count = resultSet.getLong("count(*)");
+        }
+        return count;
+    }
+
 
     public void insertData(Connection connection) throws SQLException {
         long diaryTypeId = NumberSource.getInstance().randomLong(1, 100);

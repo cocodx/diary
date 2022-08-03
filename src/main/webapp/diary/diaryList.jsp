@@ -16,4 +16,9 @@
             </c:forEach>
         </ul>
     </div>
+    <div class="pagination pagination-centered pagination-large">
+        <ul>
+            ${pageCode}
+        </ul>
+    </div>
 </div>
