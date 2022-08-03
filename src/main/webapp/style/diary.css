@@ -18,3 +18,15 @@ body{
 .data_list .data_list_title img{
     vertical-align: top;
 }
+
+.data_list .diary_datas{
+    padding: 5px;
+}
+
+.data_list .diary_datas ul{
+    list-style-type: none;
+}
+
+.data_list .diary_datas ul li{
+    margin-top: 15px;
+}
