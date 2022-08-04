@@ -97,4 +97,6 @@ public class DiaryDao {
         DiaryDao diaryDao = new DiaryDao();
         diaryDao.insertData(connection);
     }
+
+
 }

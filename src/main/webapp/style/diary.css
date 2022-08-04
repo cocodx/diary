@@ -34,3 +34,17 @@ body{
 .data_list .diary_datas ul li span{
     font-size: 18px;
 }
+
+.data_list .dataTypes{
+    padding: 5px;
+}
+
+.data_list .dataTypes ul{
+    list-style-type: none;
+}
+
+.data_list .dataTypes ul li{
+    margin-top: 10px;
+    font-size: 17px;
+    font-weight: 600;
+}

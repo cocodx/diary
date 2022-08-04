@@ -51,6 +51,14 @@
                     <img src="${pageContext.request.contextPath}/images/byType_icon.png"/>
                     按日志类别
                 </div>
+                <div class="dataTypes">
+                    <ul>
+                        <li><a href="main?page=1&typeId=12">人生感叹（7）</a></li>
+                        <li><a href="main?page=1&typeId=12">人生感叹（10）</a></li>
+                        <li><a href="main?page=1&typeId=12">人生感叹（13）</a></li>
+                        <li><a href="main?page=1&typeId=12">人生感叹（51）</a></li>
+                    </ul>
+                </div>
             </div>
 
             <div class="data_list">
