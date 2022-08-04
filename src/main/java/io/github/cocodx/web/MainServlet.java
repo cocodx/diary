@@ -4,6 +4,7 @@ import io.github.cocodx.dao.DiaryDao;
 import io.github.cocodx.model.Diary;
 import io.github.cocodx.model.PageBean;
 import io.github.cocodx.utils.DbUtil;
+import io.github.cocodx.utils.PropertiesUtils;
 import io.github.cocodx.utils.StringUtils;
 
 import javax.servlet.ServletException;
@@ -36,6 +37,7 @@ public class MainServlet extends HttpServlet {
             connection = DbUtil.connection();
             String page = req.getParameter("page");
             PageBean pageBean = new PageBean();
+            pageBean.setSize(Long.parseLong(PropertiesUtils.getValue("pageSize")));
             if (StringUtils.isNotEmpty(page)){
                 pageBean.setPage(Long.parseLong(page));
             }
@@ -61,17 +63,18 @@ public class MainServlet extends HttpServlet {
     private String genPageCode(Long total,PageBean pageBean){
         pageBean.setTotal(total);
         StringBuffer buffer = new StringBuffer();
+        buffer.append("<li><a href=\"main?page=1\">首页</a></li>");
         if (pageBean.hasPrev()){
-            buffer.append("<li><a href=\"#\">Prev</a></li>");
+            buffer.append("<li><a href=\"main?page="+(pageBean.getPage().intValue()-1)+"\">上一页</a></li>");
         }else{
-            buffer.append("<li><a href=\"#\" class=\"disabled\">Prev</a></li>");
+            buffer.append("<li><a href=\"#\" class=\"disabled\">上一页</a></li>");
         }
         Integer i=1;
         for (;;){
             if (i==pageBean.getPage().intValue()){
-                buffer.append("<li><a href=\"#\" class=\"active\">"+i+"</a></li>");
+                buffer.append("<li><a href=\"main?page="+i+"\" class=\"active\">"+i+"</a></li>");
             }else {
-                buffer.append("<li><a href=\"#\">"+i+"</a></li>");
+                buffer.append("<li><a href=\"main?page="+i+"\">"+i+"</a></li>");
             }
             if (i==pageBean.getTotalPage().intValue()){
                 break;
@@ -79,10 +82,11 @@ public class MainServlet extends HttpServlet {
             i++;
         }
         if (pageBean.hasNext()){
-            buffer.append("<li><a href=\"#\">Next</a></li>");
+            buffer.append("<li><a href=\"main?page="+(pageBean.getPage().intValue()+1)+"\">下一页</a></li>");
         }else{
-            buffer.append("<li><a href=\"#\" class=\"disabled\">Next</a></li>");
+            buffer.append("<li><a href=\"#\" class=\"disabled\">下一页</a></li>");
         }
+        buffer.append("<li><a href=\"main?page="+pageBean.getTotalPage()+"\">尾页</a></li>");
         return buffer.toString();
     }
 }
