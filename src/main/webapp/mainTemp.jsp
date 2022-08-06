@@ -9,6 +9,7 @@
 <link href="${pageContext.request.contextPath}/style/diary.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/style/animate.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/bootstrap/js/jQuery.js"></script>
 <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.js"></script>
 </head>
@@ -44,11 +45,11 @@
                     <img src="${pageContext.request.contextPath}/images/user_icon.png"/>
                     个人中心
                 </div>
-                <div class="user_image">
+                <div class="user_image animate__animated animate__shakeX">
                     <img src="${pageContext.request.contextPath}/images/user.jpeg" alt="">
                 </div>
                 <div class="nickName">苦逼屌丝</div>
-                <div class="userSign">生活是一种态度</div>
+                <div class="animate__animated animate__shakeY userSign">生活是一种态度</div>
             </div>
 
             <div class="data_list">
