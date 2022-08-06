@@ -4,7 +4,9 @@ import com.apifan.common.random.source.DateTimeSource;
 import com.apifan.common.random.source.NumberSource;
 import com.apifan.common.random.source.OtherSource;
 import io.github.cocodx.model.Diary;
+import io.github.cocodx.model.MarkMonthData;
 import io.github.cocodx.model.PageBean;
+import io.github.cocodx.model.vo.DiaryVo;
 import io.github.cocodx.utils.DateUtils;
 import io.github.cocodx.utils.DbUtil;
 
@@ -19,15 +21,25 @@ import java.util.List;
  **/
 public class DiaryDao {
 
-    public List<Diary> selectList(Connection connection,PageBean pageBean) throws SQLException, ParseException {
+    public List<Diary> selectList(Connection connection, DiaryVo pageBean) throws SQLException, ParseException {
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append("SELECT d.*,dt.type_name FROM `t_diary` d\n" +
-                "INNER JOIN `t_diary_type` dt on d.type_id = dt.type_id ");
-        stringBuffer.append("order by d.release_date desc ");
-        stringBuffer.append("limit ?,?");
+        stringBuffer.append(" SELECT d.*,dt.type_name FROM `t_diary` d\n" +
+                " INNER JOIN `t_diary_type` dt on d.type_id = dt.type_id ");
+        if (pageBean.getTypeId() != null) {
+            stringBuffer.append(" where d.type_id = ?");
+        }
+        stringBuffer.append(" order by d.release_date desc ");
+        stringBuffer.append(" limit ?,?");
         PreparedStatement preparedStatement = connection.prepareStatement(stringBuffer.toString());
-        preparedStatement.setLong(1,pageBean.getStart());
-        preparedStatement.setLong(2,pageBean.getSize());
+        if (pageBean.getTypeId() != null) {
+            preparedStatement.setLong(1,pageBean.getTypeId());
+            preparedStatement.setLong(2,pageBean.getStart());
+            preparedStatement.setLong(3,pageBean.getSize());
+        }else{
+            preparedStatement.setLong(1,pageBean.getStart());
+            preparedStatement.setLong(2,pageBean.getSize());
+        }
+
         ResultSet resultSet = preparedStatement.executeQuery();
         ArrayList<Diary> diaries = new ArrayList<>();
         while (resultSet.next()){
@@ -42,17 +54,46 @@ public class DiaryDao {
         return diaries;
     }
 
-    public Long selectCount(Connection connection)throws Exception{
+    public Long selectCount(Connection connection,Long typeId)throws Exception{
         StringBuffer stringBuffer = new StringBuffer();
-        stringBuffer.append("SELECT count(*) FROM `t_diary` d\n" +
+        stringBuffer.append(" SELECT count(*) FROM `t_diary` d\n" +
                 "INNER JOIN `t_diary_type` dt on d.type_id = dt.type_id ");
+        if (typeId!=null){
+            stringBuffer.append(" where d.type_id=?");
+        }
         PreparedStatement preparedStatement = connection.prepareStatement(stringBuffer.toString());
+        if (typeId!=null){
+            preparedStatement.setLong(1,typeId);
+        }
         ResultSet resultSet = preparedStatement.executeQuery();
         Long count = 0L;
         while (resultSet.next()){
             count = resultSet.getLong("count(*)");
         }
         return count;
+    }
+
+    /**
+     * 获取日志日期
+     * @param connection
+     * @return
+     * @throws SQLException
+     */
+    public List<MarkMonthData> selectMonthDataCount(Connection connection) throws SQLException {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("select mark_month,count(mark_month) as mark_number from\n" +
+                "(SELECT DATE_FORMAT(release_date,'%Y-%m') AS mark_month FROM `t_diary`) table2\n" +
+                "GROUP BY table2.mark_month ORDER BY table2.mark_month desc;");
+        PreparedStatement preparedStatement = connection.prepareStatement(stringBuffer.toString());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        List<MarkMonthData> list = new ArrayList<>();
+        while (resultSet.next()){
+            MarkMonthData markMonthData = new MarkMonthData();
+            markMonthData.setDataMonth(resultSet.getString("mark_month"));
+            markMonthData.setDataNumber(resultSet.getLong("mark_number"));
+            list.add(markMonthData);
+        }
+        return list;
     }
 
 

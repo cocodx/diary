@@ -1,8 +1,12 @@
 package io.github.cocodx.web;
 
 import io.github.cocodx.dao.DiaryDao;
+import io.github.cocodx.dao.DiaryTypeDao;
 import io.github.cocodx.model.Diary;
+import io.github.cocodx.model.DiaryType;
+import io.github.cocodx.model.MarkMonthData;
 import io.github.cocodx.model.PageBean;
+import io.github.cocodx.model.vo.DiaryVo;
 import io.github.cocodx.utils.DbUtil;
 import io.github.cocodx.utils.PropertiesUtils;
 import io.github.cocodx.utils.StringUtils;
@@ -23,7 +27,8 @@ import java.util.List;
  **/
 public class MainServlet extends HttpServlet {
 
-    DiaryDao diaryDao = new DiaryDao();
+    private DiaryDao diaryDao = new DiaryDao();
+    private DiaryTypeDao diaryTypeDao = new DiaryTypeDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,16 +41,26 @@ public class MainServlet extends HttpServlet {
         try {
             connection = DbUtil.connection();
             String page = req.getParameter("page");
-            PageBean pageBean = new PageBean();
+            String typeId = req.getParameter("typeId");
+            DiaryVo pageBean = new DiaryVo();
             pageBean.setSize(Long.parseLong(PropertiesUtils.getValue("pageSize")));
             if (StringUtils.isNotEmpty(page)){
                 pageBean.setPage(Long.parseLong(page));
             }
+            Long queryCount = null;
+            if (StringUtils.isNotEmpty(typeId)) {
+                pageBean.setTypeId(Long.parseLong(typeId));
+                queryCount = Long.parseLong(typeId);
+            }
+            Long total = diaryDao.selectCount(connection,queryCount);
             List<Diary> diaries = diaryDao.selectList(connection,pageBean);
-            Long total = diaryDao.selectCount(connection);
-            String pageCode = genPageCode(total, pageBean);
+            List<DiaryType> diaryTypes = diaryTypeDao.selectDiaryTypeCount(connection);
+            List<MarkMonthData> markMonthData = diaryDao.selectMonthDataCount(connection);
+            String pageCode = genPageCode(total, pageBean,queryCount);
             req.setAttribute("pageCode",pageCode);
             req.setAttribute("diaryList",diaries);
+            req.setAttribute("diaryTypes",diaryTypes);
+            req.setAttribute("diaryDates",markMonthData);
             req.setCharacterEncoding("UTF-8");
             req.setAttribute("mainPage","diary/diaryList.jsp");
             req.getRequestDispatcher("mainTemp.jsp").forward(req,resp);
@@ -60,21 +75,45 @@ public class MainServlet extends HttpServlet {
         }
     }
 
-    private String genPageCode(Long total,PageBean pageBean){
+    /**
+     * 组装分页方法
+     * @param total
+     * @param pageBean
+     * @Param typeId 日记类型id
+     * @return
+     */
+    private String genPageCode(Long total,PageBean pageBean,Long typeId){
         pageBean.setTotal(total);
+        System.out.println("total page:"+pageBean.getTotalPage());
         StringBuffer buffer = new StringBuffer();
-        buffer.append("<li><a href=\"main?page=1\">首页</a></li>");
+        if (typeId!=null){
+            buffer.append("<li><a href=\"main?page=1&typeId="+typeId+"\">首页</a></li>");
+        }else {
+            buffer.append("<li><a href=\"main?page=1\">首页</a></li>");
+        }
         if (pageBean.hasPrev()){
-            buffer.append("<li><a href=\"main?page="+(pageBean.getPage().intValue()-1)+"\">上一页</a></li>");
+            if (typeId!=null){
+                buffer.append("<li><a href=\"main?page="+(pageBean.getPage().intValue()-1)+"&typeId="+typeId+"\">上一页</a></li>");
+            }else{
+                buffer.append("<li><a href=\"main?page="+(pageBean.getPage().intValue()-1)+"\">上一页</a></li>");
+            }
         }else{
             buffer.append("<li><a href=\"#\" class=\"disabled\">上一页</a></li>");
         }
         Integer i=1;
         for (;;){
             if (i==pageBean.getPage().intValue()){
-                buffer.append("<li><a href=\"main?page="+i+"\" class=\"active\">"+i+"</a></li>");
+                if (typeId!=null){
+                    buffer.append("<li><a href=\"main?page="+i+"&typeId="+typeId+"\" class=\"active\">"+i+"</a></li>");
+                }else{
+                    buffer.append("<li><a href=\"main?page="+i+"\" class=\"active\">"+i+"</a></li>");
+                }
             }else {
-                buffer.append("<li><a href=\"main?page="+i+"\">"+i+"</a></li>");
+                if (typeId!=null){
+                    buffer.append("<li><a href=\"main?page="+i+"&typeId="+typeId+"\">"+i+"</a></li>");
+                }else {
+                    buffer.append("<li><a href=\"main?page="+i+"\">"+i+"</a></li>");
+                }
             }
             if (i==pageBean.getTotalPage().intValue()){
                 break;
@@ -82,11 +121,20 @@ public class MainServlet extends HttpServlet {
             i++;
         }
         if (pageBean.hasNext()){
-            buffer.append("<li><a href=\"main?page="+(pageBean.getPage().intValue()+1)+"\">下一页</a></li>");
+            if (typeId!=null){
+                buffer.append("<li><a href=\"main?page="+(pageBean.getPage().intValue()+1)+"&typeId="+typeId+"\">下一页</a></li>");
+            }else{
+                buffer.append("<li><a href=\"main?page="+(pageBean.getPage().intValue()+1)+"\">下一页</a></li>");
+            }
+
         }else{
             buffer.append("<li><a href=\"#\" class=\"disabled\">下一页</a></li>");
         }
-        buffer.append("<li><a href=\"main?page="+pageBean.getTotalPage()+"\">尾页</a></li>");
+        if (typeId!=null){
+            buffer.append("<li><a href=\"main?page="+pageBean.getTotalPage()+"&typeId="+typeId+"\">尾页</a></li>");
+        }else {
+            buffer.append("<li><a href=\"main?page="+pageBean.getTotalPage()+"\">尾页</a></li>");
+        }
         return buffer.toString();
     }
 }

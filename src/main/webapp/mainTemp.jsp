@@ -53,10 +53,11 @@
                 </div>
                 <div class="dataTypes">
                     <ul>
-                        <li><a href="main?page=1&typeId=12">人生感叹（7）</a></li>
-                        <li><a href="main?page=1&typeId=12">人生感叹（10）</a></li>
-                        <li><a href="main?page=1&typeId=12">人生感叹（13）</a></li>
-                        <li><a href="main?page=1&typeId=12">人生感叹（51）</a></li>
+                        <c:forEach var="diary" items="${diaryTypes}">
+                            <li>
+                                <a href="main?page=1&typeId=${diary.typeId}">${diary.typeName}（${diary.count}）</a>
+                            </li>
+                        </c:forEach>
                     </ul>
                 </div>
             </div>
@@ -65,6 +66,15 @@
                 <div class="data_list_title">
                     <img src="${pageContext.request.contextPath}/images/byDate_icon.png"/>
                     按日志日期
+                </div>
+                <div class="dataTypes">
+                    <ul>
+                        <c:forEach var="diaryDate" items="${diaryDates}">
+                            <li>
+                                <a href="main?page=1">${diaryDate.dataMonth}（${diaryDate.dataNumber}）</a>
+                            </li>
+                        </c:forEach>
+                    </ul>
                 </div>
             </div>
         </div>
