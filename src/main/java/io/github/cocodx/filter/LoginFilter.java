@@ -7,10 +7,10 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
+ * 过滤器，session失效，直接跳转到登录首页
  * @author amazfit
  * @date 2022-08-01 下午11:55
  **/
-@Deprecated
 public class LoginFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
