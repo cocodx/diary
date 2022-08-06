@@ -48,3 +48,16 @@ body{
     font-size: 17px;
     font-weight: 600;
 }
+
+.data_list .user_image{
+    text-align: center;
+}
+.data_list .user_image img{
+    padding-top: 10px;
+    width: 200px;
+    height: auto;
+}
+.data_list .userSign{
+    font-size: 16px;
+    font-weight: 600;
+}

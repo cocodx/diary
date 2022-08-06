@@ -44,6 +44,11 @@
                     <img src="${pageContext.request.contextPath}/images/user_icon.png"/>
                     个人中心
                 </div>
+                <div class="user_image">
+                    <img src="${pageContext.request.contextPath}/images/user.jpeg" alt="">
+                </div>
+                <div class="nickName">苦逼屌丝</div>
+                <div class="userSign">生活是一种态度</div>
             </div>
 
             <div class="data_list">
