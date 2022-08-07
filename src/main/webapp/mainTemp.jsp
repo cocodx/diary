@@ -77,7 +77,7 @@
                     <ul>
                         <c:forEach var="diaryDate" items="${diaryDates}">
                             <li>
-                                <a href="main?page=1">${diaryDate.dataMonth}（${diaryDate.dataNumber}）</a>
+                                <a href="main?page=1&queryMonth=${diaryDate.dataMonth}">${diaryDate.dataMonth}（${diaryDate.dataNumber}）</a>
                             </li>
                         </c:forEach>
                     </ul>

@@ -42,6 +42,11 @@ public class MainServlet extends HttpServlet {
             connection = DbUtil.connection();
             String page = req.getParameter("page");
             String typeId = req.getParameter("typeId");
+            String queryMonth = req.getParameter("queryMonth");
+            if (StringUtils.isNotEmpty(typeId)){
+
+            }
+
             DiaryVo pageBean = new DiaryVo();
             pageBean.setSize(Long.parseLong(PropertiesUtils.getValue("pageSize")));
             if (StringUtils.isNotEmpty(page)){
@@ -52,8 +57,10 @@ public class MainServlet extends HttpServlet {
                 pageBean.setTypeId(Long.parseLong(typeId));
                 queryCount = Long.parseLong(typeId);
             }
+            //总数和日记列表
             Long total = diaryDao.selectCount(connection,queryCount);
             List<Diary> diaries = diaryDao.selectList(connection,pageBean);
+            //日志分类数据，日志日期数据
             List<DiaryType> diaryTypes = diaryTypeDao.selectDiaryTypeCount(connection);
             List<MarkMonthData> markMonthData = diaryDao.selectMonthDataCount(connection);
             String pageCode = genPageCode(total, pageBean,queryCount);
