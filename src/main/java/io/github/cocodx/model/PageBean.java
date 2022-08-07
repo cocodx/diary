@@ -25,7 +25,7 @@ public class PageBean {
         if (total<=size){
             return 1L;
         }
-        return total%size==0 ? total/size : total%size+1;
+        return total%size==0 ? total/size : total/size+1;
     }
 
     public Boolean hasPrev(){
@@ -48,7 +48,7 @@ public class PageBean {
     public static void main(String[] args) {
         PageBean pageBean = new PageBean();
         pageBean.setPage(1L);
-        pageBean.setSize(10L);
+        pageBean.setSize(5L);
         pageBean.setTotal(7L);
         System.out.println(pageBean.getTotalPage());
     }

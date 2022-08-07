@@ -10,5 +10,9 @@ import lombok.Data;
 @Data
 public class DiaryVo extends PageBean {
 
+    /** 日志类别id **/
     private Long typeId;
+
+    /** 日志日期-月份 **/
+    private String queryMonth;
 }

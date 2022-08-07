@@ -28,6 +28,9 @@ public class DiaryDao {
         if (pageBean.getTypeId() != null) {
             stringBuffer.append(" where d.type_id = ?");
         }
+        if (pageBean.getQueryMonth()!=null){
+            stringBuffer.append(" where DATE_FORMAT(d.release_date,'%Y-%m') = ?");
+        }
         stringBuffer.append(" order by d.release_date desc ");
         stringBuffer.append(" limit ?,?");
         PreparedStatement preparedStatement = connection.prepareStatement(stringBuffer.toString());
@@ -35,7 +38,13 @@ public class DiaryDao {
             preparedStatement.setLong(1,pageBean.getTypeId());
             preparedStatement.setLong(2,pageBean.getStart());
             preparedStatement.setLong(3,pageBean.getSize());
-        }else{
+        }
+        else if (pageBean.getQueryMonth()!=null){
+            preparedStatement.setString(1,pageBean.getQueryMonth());
+            preparedStatement.setLong(2,pageBean.getStart());
+            preparedStatement.setLong(3,pageBean.getSize());
+        }
+        else{
             preparedStatement.setLong(1,pageBean.getStart());
             preparedStatement.setLong(2,pageBean.getSize());
         }
@@ -54,16 +63,22 @@ public class DiaryDao {
         return diaries;
     }
 
-    public Long selectCount(Connection connection,Long typeId)throws Exception{
+    public Long selectCount(Connection connection,DiaryVo diaryVo)throws Exception{
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append(" SELECT count(*) FROM `t_diary` d\n" +
                 "INNER JOIN `t_diary_type` dt on d.type_id = dt.type_id ");
-        if (typeId!=null){
+        if (diaryVo.getTypeId()!=null){
             stringBuffer.append(" where d.type_id=?");
         }
+        if (diaryVo.getQueryMonth()!=null){
+            stringBuffer.append(" where DATE_FORMAT(d.release_date,'%Y-%m') = ?");
+        }
         PreparedStatement preparedStatement = connection.prepareStatement(stringBuffer.toString());
-        if (typeId!=null){
-            preparedStatement.setLong(1,typeId);
+        if (diaryVo.getTypeId()!=null){
+            preparedStatement.setLong(1,diaryVo.getTypeId());
+        }
+        if (diaryVo.getQueryMonth()!=null){
+            preparedStatement.setString(1,diaryVo.getQueryMonth());
         }
         ResultSet resultSet = preparedStatement.executeQuery();
         Long count = 0L;
