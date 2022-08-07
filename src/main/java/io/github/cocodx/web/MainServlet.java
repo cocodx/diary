@@ -56,6 +56,21 @@ public class MainServlet extends HttpServlet {
                 session.setAttribute("queryMonth",queryMonth);
                 session.removeAttribute("typeId");
             }
+
+            //从session中获取，上一次设置进去的参数
+            if (StringUtils.isEmpty(typeId)){
+                Object sessionTypeId = session.getAttribute("typeId");
+                if (sessionTypeId != null) {
+                    diaryVo.setTypeId(Long.parseLong((String) sessionTypeId));
+                }
+            }
+            if (StringUtils.isEmpty(queryMonth)){
+                Object sessionQueryMonth = session.getAttribute("queryMonth");
+                if (sessionQueryMonth != null) {
+                    diaryVo.setQueryMonth(String.valueOf(sessionQueryMonth));
+                }
+            }
+
             diaryVo.setSize(Long.parseLong(PropertiesUtils.getValue("pageSize")));
             if (StringUtils.isNotEmpty(page)){
                 diaryVo.setPage(Long.parseLong(page));
