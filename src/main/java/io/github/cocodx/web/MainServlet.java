@@ -40,22 +40,35 @@ public class MainServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Connection connection = null;
         try {
+            req.setCharacterEncoding("UTF-8");
             connection = DbUtil.connection();
             HttpSession session = req.getSession();
             DiaryVo diaryVo = new DiaryVo();
             String page = req.getParameter("page");
             String typeId = req.getParameter("typeId");
             String queryMonth = req.getParameter("queryMonth");
-            if (StringUtils.isNotEmpty(typeId)){
-                diaryVo.setTypeId(Long.parseLong(typeId));
-                session.setAttribute("typeId",typeId);
+            String aTrue = req.getParameter("all");
+            if (StringUtils.isNotEmpty(aTrue) && aTrue.equals("true")){
+                String s_name = req.getParameter("s_title");
+                session.setAttribute("s_name",s_name);
+                diaryVo.setDiaryTitle(s_name);
                 session.removeAttribute("queryMonth");
-            }
-            if (StringUtils.isNotEmpty(queryMonth)){
-                diaryVo.setQueryMonth(queryMonth);
-                session.setAttribute("queryMonth",queryMonth);
                 session.removeAttribute("typeId");
+            }else{
+                if (StringUtils.isNotEmpty(typeId)){
+                    diaryVo.setTypeId(Long.parseLong(typeId));
+                    session.setAttribute("typeId",typeId);
+                    session.removeAttribute("s_name");
+                    session.removeAttribute("queryMonth");
+                }
+                if (StringUtils.isNotEmpty(queryMonth)){
+                    diaryVo.setQueryMonth(queryMonth);
+                    session.setAttribute("queryMonth",queryMonth);
+                    session.removeAttribute("typeId");
+                    session.removeAttribute("s_name");
+                }
             }
+
 
             //从session中获取，上一次设置进去的参数
             if (StringUtils.isEmpty(typeId)){
@@ -70,6 +83,13 @@ public class MainServlet extends HttpServlet {
                     diaryVo.setQueryMonth(String.valueOf(sessionQueryMonth));
                 }
             }
+            if (StringUtils.isEmpty(aTrue)){
+                Object name = session.getAttribute("s_name");
+                if (name != null) {
+                    diaryVo.setDiaryTitle(String.valueOf(name));
+                }
+            }
+
 
             diaryVo.setSize(Long.parseLong(PropertiesUtils.getValue("pageSize")));
             if (StringUtils.isNotEmpty(page)){

@@ -15,4 +15,7 @@ public class DiaryVo extends PageBean {
 
     /** 日志日期-月份 **/
     private String queryMonth;
+
+    /** 日记名称-模糊搜索 **/
+    private String diaryTitle;
 }

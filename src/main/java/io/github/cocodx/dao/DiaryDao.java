@@ -31,6 +31,9 @@ public class DiaryDao {
         if (pageBean.getQueryMonth()!=null){
             stringBuffer.append(" where DATE_FORMAT(d.release_date,'%Y-%m') = ?");
         }
+        if (pageBean.getDiaryTitle()!=null){
+            stringBuffer.append(" where d.title like '%"+pageBean.getDiaryTitle()+"%'");
+        }
         stringBuffer.append(" order by d.release_date desc ");
         stringBuffer.append(" limit ?,?");
         PreparedStatement preparedStatement = connection.prepareStatement(stringBuffer.toString());
@@ -43,6 +46,10 @@ public class DiaryDao {
             preparedStatement.setString(1,pageBean.getQueryMonth());
             preparedStatement.setLong(2,pageBean.getStart());
             preparedStatement.setLong(3,pageBean.getSize());
+        }
+        else if (pageBean.getDiaryTitle()!=null){
+            preparedStatement.setLong(1,pageBean.getStart());
+            preparedStatement.setLong(2,pageBean.getSize());
         }
         else{
             preparedStatement.setLong(1,pageBean.getStart());
@@ -72,6 +79,9 @@ public class DiaryDao {
         }
         if (diaryVo.getQueryMonth()!=null){
             stringBuffer.append(" where DATE_FORMAT(d.release_date,'%Y-%m') = ?");
+        }
+        if (diaryVo.getDiaryTitle()!=null){
+            stringBuffer.append(" where d.title like '%"+diaryVo.getDiaryTitle()+"%'");
         }
         PreparedStatement preparedStatement = connection.prepareStatement(stringBuffer.toString());
         if (diaryVo.getTypeId()!=null){

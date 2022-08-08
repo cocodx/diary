@@ -26,7 +26,7 @@
                     <li class="active"><a href="#"><i class="icon-user"></i>&nbsp;个人中心</a></li>
                 </ul>
             </div>
-            <form name="myForm" class="navbar-form pull-right" method="post" action="">
+            <form name="myForm" class="navbar-form pull-right" method="post" action="main?all=true">
                 <input type="text" class="span2" id="s_title" name="s_title" style="margin-top:5px ;height: 30px" placeholder="往事如烟...">
                 <button type="submit" class="btn" onkeydown="if (event.keyCode==13) myForm.submit()"><i class="icon-search"></i>&nbsp;Submit</button>
             </form>
