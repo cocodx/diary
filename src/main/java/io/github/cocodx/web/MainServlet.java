@@ -104,8 +104,8 @@ public class MainServlet extends HttpServlet {
             String pageCode = genPageCode(total,diaryVo);
             req.setAttribute("pageCode",pageCode);
             req.setAttribute("diaryList",diaries);
-            req.setAttribute("diaryTypes",diaryTypes);
-            req.setAttribute("diaryDates",markMonthData);
+            session.setAttribute("diaryTypes",diaryTypes);
+            session.setAttribute("diaryDates",markMonthData);
             req.setCharacterEncoding("UTF-8");
             req.setAttribute("mainPage","diary/diaryList.jsp");
             req.getRequestDispatcher("mainTemp.jsp").forward(req,resp);

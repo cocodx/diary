@@ -29,6 +29,7 @@ public class DiaryServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("UTF-8");
         String diaryId = request.getParameter("diaryId");
         String action = request.getParameter("action");
         if (action.equals("show")){
