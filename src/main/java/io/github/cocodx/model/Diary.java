@@ -22,4 +22,7 @@ public class Diary implements Serializable {
     private Long typeId;
     /** 发布日期 **/
     private Date releaseDate;
+
+    /** 分类名称 **/
+    private String typeName;
 }

@@ -36,4 +36,13 @@
         <url-pattern>/main</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>diaryServlet</servlet-name>
+        <servlet-class>io.github.cocodx.web.DiaryServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>diaryServlet</servlet-name>
+        <url-pattern>/diary</url-pattern>
+    </servlet-mapping>
+
 </web-app>

@@ -3,6 +3,7 @@ package io.github.cocodx.dao;
 import com.apifan.common.random.source.DateTimeSource;
 import com.apifan.common.random.source.NumberSource;
 import com.apifan.common.random.source.OtherSource;
+import com.apifan.common.random.util.DataUtils;
 import io.github.cocodx.model.Diary;
 import io.github.cocodx.model.MarkMonthData;
 import io.github.cocodx.model.PageBean;
@@ -119,6 +120,25 @@ public class DiaryDao {
             list.add(markMonthData);
         }
         return list;
+    }
+
+    public Diary selectOne(Connection connection,String diaryId) throws SQLException, ParseException {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("SELECT d.diary_id,d.title,d.content,d.release_date,dt.type_id,dt.type_name FROM t_diary d \n" +
+                "INNER JOIN t_diary_type dt ON d.type_id = dt.type_id where d.diary_id = ?");
+        PreparedStatement preparedStatement = connection.prepareStatement(stringBuffer.toString());
+        preparedStatement.setString(1,diaryId);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        Diary diary = new Diary();
+        while (resultSet.next()){
+            diary.setDiaryId(resultSet.getLong("diary_id"));
+            diary.setTitle(resultSet.getString("title"));
+            diary.setContent(resultSet.getString("content"));
+            diary.setReleaseDate(resultSet.getDate("release_date"));
+            diary.setTypeId(resultSet.getLong("type_id"));
+            diary.setTypeName(resultSet.getString("type_name"));
+        }
+        return diary;
     }
 
 

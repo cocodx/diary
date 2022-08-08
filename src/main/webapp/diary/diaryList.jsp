@@ -11,7 +11,7 @@
             <c:forEach var="diary" items="${diaryList}">
                 <li>
                     <fmt:formatDate value="${diary.releaseDate}" type="date" pattern="yyyy-MM-dd"/>
-                    <span>&nbsp;<a href="#">${diary.title}</a></span>
+                    <span>&nbsp;<a href="diary?action=show&diaryId=${diary.diaryId}">${diary.title}</a></span>
                 </li>
             </c:forEach>
         </ul>
