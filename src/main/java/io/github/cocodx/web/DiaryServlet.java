@@ -34,6 +34,8 @@ public class DiaryServlet extends HttpServlet {
         String action = request.getParameter("action");
         if (action.equals("show")){
             show(request,response,diaryId);
+        }else if(action.equals("add")){
+            add(request,response);
         }
     }
 
@@ -56,6 +58,14 @@ public class DiaryServlet extends HttpServlet {
                 }
             }
         }
+    }
 
+    private void add(HttpServletRequest request,HttpServletResponse response){
+        try {
+            request.setAttribute("mainPage", "diary/addDiary.jsp");
+            request.getRequestDispatcher("mainTemp.jsp").forward(request,response);
+        } catch (ServletException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

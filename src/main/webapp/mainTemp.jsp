@@ -12,6 +12,7 @@
 <link href="${pageContext.request.contextPath}/style/animate.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/bootstrap/js/jQuery.js"></script>
 <script src="${pageContext.request.contextPath}/bootstrap/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/js/ckeditor/ckeditor.js"></script>
 </head>
 <body>
 <div class="navbar navbar-inverse navbar-fixed-top">
@@ -21,7 +22,7 @@
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li class="active"><a href="#"><i class="icon-home"></i>&nbsp;主页</a></li>
-                    <li class="active"><a href="#"><i class="icon-pencil"></i>&nbsp;写日记</a></li>
+                    <li class="active"><a href="diary?action=add"><i class="icon-pencil"></i>&nbsp;写日记</a></li>
                     <li class="active"><a href="#"><i class="icon-book"></i>&nbsp;日记分类管理</a></li>
                     <li class="active"><a href="#"><i class="icon-user"></i>&nbsp;个人中心</a></li>
                 </ul>

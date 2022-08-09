@@ -77,3 +77,11 @@ body{
 .data_list .diary_action{
     margin-top: 20px;
 }
+
+.data_list .diary_type{
+    margin-top: 10px;
+}
+.data_list .diary_title{
+    margin-top:20px;
+    text-align: center;
+}
