@@ -61,4 +61,19 @@ public class DiaryTypeDao {
         }
         return list;
     }
+
+    public List<DiaryType> selectList(Connection connection) throws SQLException {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("select * from t_diary_type");
+        PreparedStatement preparedStatement = connection.prepareStatement(stringBuffer.toString());
+        ResultSet resultSet = preparedStatement.executeQuery();
+        ArrayList<DiaryType> list = new ArrayList<>();
+        while (resultSet.next()){
+            DiaryType diaryType = new DiaryType();
+            diaryType.setTypeId(resultSet.getLong("type_id"));
+            diaryType.setTypeName(resultSet.getString("type_name"));
+            list.add(diaryType);
+        }
+        return list;
+    }
 }

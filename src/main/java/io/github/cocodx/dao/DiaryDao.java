@@ -184,5 +184,20 @@ public class DiaryDao {
         diaryDao.insertData(connection);
     }
 
-
+    /**
+     * 插入日记数据
+     * @param connection
+     * @param title
+     * @param content
+     * @param typeId
+     * @throws SQLException
+     */
+    public void insert(Connection connection, String title, String content, String typeId) throws SQLException {
+        String sql = "insert into t_diary (diary_id,title,content,type_id,release_date) values (null,?,?,?,now())";
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1,title);
+        preparedStatement.setString(2,content);
+        preparedStatement.setLong(3,Long.parseLong(typeId));
+        preparedStatement.execute();
+    }
 }

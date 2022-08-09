@@ -37,10 +37,9 @@
             <div class="diary_type">
                 <select name="typeId" id="typeId">
                     <option value="">请选择日志类别...</option>
-                    <option value="">11...</option>
-                    <option value="">22...</option>
-                    <option value="">33...</option>
-                    <option value="">44...</option>
+                    <c:forEach var="diaryType" items="${diaryTypes}">
+                        <option value="${diaryType.typeId}">${diaryType.typeName}</option>
+                    </c:forEach>
                 </select>
             </div>
             <div>

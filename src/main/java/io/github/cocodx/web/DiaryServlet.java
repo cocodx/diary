@@ -1,7 +1,9 @@
 package io.github.cocodx.web;
 
 import io.github.cocodx.dao.DiaryDao;
+import io.github.cocodx.dao.DiaryTypeDao;
 import io.github.cocodx.model.Diary;
+import io.github.cocodx.model.DiaryType;
 import io.github.cocodx.utils.DbUtil;
 
 import javax.servlet.ServletException;
@@ -12,6 +14,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.List;
 
 /**
  * 日记详情页 查看详情页，修改，删除。
@@ -21,6 +24,7 @@ import java.text.ParseException;
 public class DiaryServlet extends HttpServlet {
 
     private DiaryDao diaryDao = new DiaryDao();
+    private DiaryTypeDao diaryTypeDao = new DiaryTypeDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,6 +40,27 @@ public class DiaryServlet extends HttpServlet {
             show(request,response,diaryId);
         }else if(action.equals("add")){
             add(request,response);
+        }else if (action.equals("save")){
+            save(request,response);
+        }
+    }
+
+    /**
+     * 保存日记，跳转list界面
+     * @param request
+     * @param response
+     */
+    private void save(HttpServletRequest request, HttpServletResponse response) {
+        String title = request.getParameter("title");
+        String content = request.getParameter("content");
+        String typeId = request.getParameter("typeId");
+        Connection connection = null;
+        try {
+            connection = DbUtil.connection();
+            diaryDao.insert(connection,title,content,typeId);
+            request.getRequestDispatcher("main?all=true").forward(request, response);
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -60,12 +85,29 @@ public class DiaryServlet extends HttpServlet {
         }
     }
 
+    /**
+     * 去写日记的界面
+     * @param request
+     * @param response
+     */
     private void add(HttpServletRequest request,HttpServletResponse response){
+        Connection connection = null;
         try {
+            connection = DbUtil.connection();
+            List<DiaryType> diaryTypes = diaryTypeDao.selectList(connection);
+            request.setAttribute("diaryTypes",diaryTypes);
             request.setAttribute("mainPage", "diary/addDiary.jsp");
             request.getRequestDispatcher("mainTemp.jsp").forward(request,response);
-        } catch (ServletException | IOException e) {
+        } catch (ServletException | IOException | SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
+        }finally {
+            if (connection != null) {
+                try {
+                    DbUtil.closeConnection(connection);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 }
