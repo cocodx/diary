@@ -22,7 +22,7 @@
             ${diary.content }
         </div>
         <div class="diary_action">
-            <button class="btn btn-primary" type="button" onclick="">修改日志</button>
+            <button class="btn btn-primary" type="button" onclick="javascript:window.location='diary?action=preSave&diaryId=${diary.diaryId}'">修改日志</button>
             <button class="btn btn-primary" type="button" onclick="javascript:history.back()">返回</button>
             <button class="btn btn-danger" type="button" onclick="deleteFunction(${diary.diaryId})">删除日志</button>
         </div>

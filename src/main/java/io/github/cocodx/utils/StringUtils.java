@@ -11,7 +11,7 @@ public class StringUtils {
     }
 
     public static Boolean isEmpty(Object str){
-        if (str==null){
+        if (str==null || str.equals("")){
             return true;
         }
         return false;

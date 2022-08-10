@@ -5,6 +5,7 @@ import io.github.cocodx.dao.DiaryTypeDao;
 import io.github.cocodx.model.Diary;
 import io.github.cocodx.model.DiaryType;
 import io.github.cocodx.utils.DbUtil;
+import io.github.cocodx.utils.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -44,6 +45,29 @@ public class DiaryServlet extends HttpServlet {
             save(request,response);
         }else if (action.equals("delete")){
             delete(request,response);
+        }else if (action.equals("preSave")){
+            preSave(request,response,diaryId);
+        }
+    }
+
+    private void preSave(HttpServletRequest request, HttpServletResponse response,String diaryId) {
+        Connection connection = null;
+        try {
+            connection = DbUtil.connection();
+            Diary diary = diaryDao.selectOne(connection, diaryId);
+            request.setAttribute("diary",diary);
+            request.setAttribute("mainPage", "diary/addDiary.jsp");
+            request.getRequestDispatcher("mainTemp.jsp").forward(request,response);
+        } catch (ClassNotFoundException | SQLException | ParseException | ServletException | IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (connection!=null){
+                try {
+                    DbUtil.closeConnection(connection);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
@@ -79,13 +103,18 @@ public class DiaryServlet extends HttpServlet {
      * @param response
      */
     private void save(HttpServletRequest request, HttpServletResponse response) {
+        String diaryId = request.getParameter("diaryId");
         String title = request.getParameter("title");
         String content = request.getParameter("content");
         String typeId = request.getParameter("typeId");
         Connection connection = null;
         try {
             connection = DbUtil.connection();
-            diaryDao.insert(connection,title,content,typeId);
+            if (StringUtils.isEmpty(diaryId)){
+                diaryDao.insert(connection,title,content,typeId);
+            }else{
+                diaryDao.update(connection,title,content,typeId,diaryId);
+            }
             request.getRequestDispatcher("main?all=true").forward(request, response);
         }catch (Exception e){
             e.printStackTrace();

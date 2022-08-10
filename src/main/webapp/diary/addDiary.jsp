@@ -29,20 +29,21 @@
     <form action="diary?action=save" method="post" onsubmit="return checkForm()">
         <div>
             <div class="diary_title">
-                <input type="text" id="title" name="title" class="input-xlarge" style="margin-top: 5px;height: 30px" placeholder="日志标题...">
+                <input type="text" id="title" name="title" class="input-xlarge" value="${diary.title}" style="margin-top: 5px;height: 30px" placeholder="日志标题...">
             </div>
             <div>
-                <textarea name="content" id="content" class="ckeditor"></textarea>
+                <textarea name="content" id="content" class="ckeditor">${diary.content}</textarea>
             </div>
             <div class="diary_type">
                 <select name="typeId" id="typeId">
                     <option value="">请选择日志类别...</option>
                     <c:forEach var="diaryType" items="${diaryTypes}">
-                        <option value="${diaryType.typeId}">${diaryType.typeName}</option>
+                        <option value="${diaryType.typeId}" ${diaryType.typeId==diary.typeId?'selected':''}>${diaryType.typeName}</option>
                     </c:forEach>
                 </select>
             </div>
             <div>
+                <input type="hidden" id="diaryId" name="diaryId" value="${diary.diaryId }"/>
                 <input type="submit" class="btn btn-primary" value="保存">
                 <button class="btn-primary btn" type="button" onclick="javascript:history.back()">返回</button>
                 <font  id="error" color="red">${error}</font>

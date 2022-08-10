@@ -213,4 +213,24 @@ public class DiaryDao {
         preparedStatement.execute();
         preparedStatement.close();
     }
+
+    /**
+     * 更新日记
+     * @param connection
+     * @param title
+     * @param content
+     * @param typeId
+     * @param diaryId
+     */
+    public void update(Connection connection, String title, String content, String typeId, String diaryId) throws SQLException {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("update t_diary set title=?,content=?,type_id=? where diary_id=?");
+        PreparedStatement preparedStatement = connection.prepareStatement(stringBuffer.toString());
+        preparedStatement.setString(1,title);
+        preparedStatement.setString(2,content);
+        preparedStatement.setString(3,typeId);
+        preparedStatement.setString(4,diaryId);
+        preparedStatement.execute();
+        preparedStatement.close();
+    }
 }
