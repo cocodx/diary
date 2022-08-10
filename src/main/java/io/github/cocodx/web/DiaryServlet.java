@@ -42,7 +42,35 @@ public class DiaryServlet extends HttpServlet {
             add(request,response);
         }else if (action.equals("save")){
             save(request,response);
+        }else if (action.equals("delete")){
+            delete(request,response);
         }
+    }
+
+    /**
+     * 删除日记
+     * @param request
+     * @param response
+     */
+    private void delete(HttpServletRequest request, HttpServletResponse response) {
+        String diaryId = request.getParameter("diaryId");
+        Connection connection = null;
+        try {
+            connection = DbUtil.connection();
+            diaryDao.delete(connection,diaryId);
+            request.getRequestDispatcher("main?all=true").forward(request, response);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            if (connection!=null){
+                try {
+                    DbUtil.closeConnection(connection);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+
     }
 
     /**
@@ -61,6 +89,14 @@ public class DiaryServlet extends HttpServlet {
             request.getRequestDispatcher("main?all=true").forward(request, response);
         }catch (Exception e){
             e.printStackTrace();
+        }finally {
+            if (connection!=null){
+                try {
+                    DbUtil.closeConnection(connection);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 

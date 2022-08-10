@@ -199,5 +199,18 @@ public class DiaryDao {
         preparedStatement.setString(2,content);
         preparedStatement.setLong(3,Long.parseLong(typeId));
         preparedStatement.execute();
+        preparedStatement.close();
+    }
+
+    /**
+     * 删除日记数据
+     * @param connection
+     * @param diaryId
+     */
+    public void delete(Connection connection, String diaryId) throws SQLException {
+        String sql = "delete from t_diary where diary_id="+diaryId;
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.execute();
+        preparedStatement.close();
     }
 }
