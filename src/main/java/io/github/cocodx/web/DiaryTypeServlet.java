@@ -28,16 +28,21 @@ public class DiaryTypeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String action = req.getParameter("action");
         Connection connection = null;
         try {
             connection = DbUtil.connection();
-            List<DiaryType> diaryTypes = diaryTypeDao.selectList(connection);
-            req.setAttribute("diaryTypeList",diaryTypes);
-            req.setAttribute("mainPage","diaryType/diaryTypeList.jsp");
-            req.getRequestDispatcher("mainTemp.jsp").forward(req,resp);
-        } catch (ClassNotFoundException | SQLException e) {
+            if (action.equals("show")) {
+                show(connection, req, resp);
+            } else if (action.equals("delete")) {
+                String typeId = req.getParameter("typeId");
+                diaryTypeDao.deleteByTypeId(typeId, connection);
+                show(connection, req, resp);
+            }
+        }
+        catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
-        } finally {
+        }finally {
             if (connection!=null){
                 try {
                     connection.close();
@@ -46,6 +51,15 @@ public class DiaryTypeServlet extends HttpServlet {
                 }
             }
         }
+
+    }
+
+    private void show(Connection connection,HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException, SQLException {
+
+        List<DiaryType> diaryTypes = diaryTypeDao.selectList(connection);
+        request.setAttribute("diaryTypeList",diaryTypes);
+        request.setAttribute("mainPage","diaryType/diaryTypeList.jsp");
+        request.getRequestDispatcher("mainTemp.jsp").forward(request,response);
 
     }
 }

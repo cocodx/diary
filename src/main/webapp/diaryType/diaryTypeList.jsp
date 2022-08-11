@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<script type="text/javascript">
+    function deleteTypeFunction(typeId){
+        if (confirm("您确定要删除这条数据吗？")){
+            window.location="diaryType?action=delete&typeId="+typeId;
+        }
+    }
+</script>
 <div class="data_list">
     <div class="data_list_title">
         <img src="${pageContext.request.contextPath}/images/list_icon.png"/>
@@ -20,7 +27,7 @@
                 <tr>
                     <td>${diaryType.typeId}</td>
                     <td>${diaryType.typeName}</td>
-                    <td><button class="btn btn-info">修改</button>&nbsp;&nbsp;<button class="btn btn-danger">删除</button></td>
+                    <td><button class="btn btn-info">修改</button>&nbsp;&nbsp;<button class="btn btn-danger" onclick="deleteTypeFunction(${diaryType.typeId})">删除</button></td>
                 </tr>
             </c:forEach>
 

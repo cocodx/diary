@@ -76,4 +76,11 @@ public class DiaryTypeDao {
         }
         return list;
     }
+
+    public void deleteByTypeId(String typeId,Connection connection) throws SQLException {
+        String sql = "delete from t_diary_type where type_id = "+typeId;
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.execute();
+        preparedStatement.close();
+    }
 }
