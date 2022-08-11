@@ -27,7 +27,7 @@
                 <tr>
                     <td>${diaryType.typeId}</td>
                     <td>${diaryType.typeName}</td>
-                    <td><button class="btn btn-info">修改</button>&nbsp;&nbsp;<button class="btn btn-danger" onclick="deleteTypeFunction(${diaryType.typeId})">删除</button></td>
+                    <td><button class="btn btn-info" onclick="javascript:window.location='diaryType?action=preSave&typeId=${diaryType.typeId}'">修改</button>&nbsp;&nbsp;<button class="btn btn-danger" onclick="deleteTypeFunction(${diaryType.typeId})">删除</button></td>
                 </tr>
             </c:forEach>
 

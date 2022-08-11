@@ -28,6 +28,7 @@ public class DiaryTypeServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("UTF-8");
         String action = req.getParameter("action");
         Connection connection = null;
         try {
@@ -37,6 +38,17 @@ public class DiaryTypeServlet extends HttpServlet {
             } else if (action.equals("delete")) {
                 String typeId = req.getParameter("typeId");
                 diaryTypeDao.deleteByTypeId(typeId, connection);
+                show(connection, req, resp);
+            } else if (action.equals("preSave")){
+                String typeId = req.getParameter("typeId");
+                DiaryType diaryType = diaryTypeDao.selectOne(typeId,connection);
+                req.setAttribute("diaryType",diaryType);
+                req.setAttribute("mainPage","diaryType/diaryTypeInfo.jsp");
+                req.getRequestDispatcher("mainTemp.jsp").forward(req,resp);
+            } else if (action.equals("save")){
+                String typeId = req.getParameter("typeId");
+                String typeName = req.getParameter("typeName");
+                diaryTypeDao.update(typeId,typeName, connection);
                 show(connection, req, resp);
             }
         }

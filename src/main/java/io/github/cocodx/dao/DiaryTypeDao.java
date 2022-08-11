@@ -83,4 +83,26 @@ public class DiaryTypeDao {
         preparedStatement.execute();
         preparedStatement.close();
     }
+
+    public DiaryType selectOne(String typeId,Connection connection) throws SQLException {
+        String sql = "select * from t_diary_type where type_id = "+typeId;
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        DiaryType diaryType = new DiaryType();
+        while (resultSet.next()){
+            diaryType.setTypeId(resultSet.getLong("type_id"));
+            diaryType.setTypeName(resultSet.getString("type_name"));
+        }
+        return diaryType;
+    }
+
+    public void update(String typeId, String typeName, Connection connection) throws SQLException {
+        StringBuffer sql = new StringBuffer();
+        sql.append("update t_diary_type set type_name = ? where type_id =?");
+        PreparedStatement preparedStatement = connection.prepareStatement(sql.toString());
+        preparedStatement.setString(1,typeName);
+        preparedStatement.setLong(2,Long.parseLong(typeId));
+        preparedStatement.execute();
+        preparedStatement.close();
+    }
 }
