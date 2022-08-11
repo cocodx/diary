@@ -23,7 +23,7 @@
                 <ul class="nav">
                     <li class="active"><a href="#"><i class="icon-home"></i>&nbsp;主页</a></li>
                     <li class="active"><a href="diary?action=add"><i class="icon-pencil"></i>&nbsp;写日记</a></li>
-                    <li class="active"><a href="#"><i class="icon-book"></i>&nbsp;日记分类管理</a></li>
+                    <li class="active"><a href="diaryType"><i class="icon-book"></i>&nbsp;日记分类管理</a></li>
                     <li class="active"><a href="#"><i class="icon-user"></i>&nbsp;个人中心</a></li>
                 </ul>
             </div>
