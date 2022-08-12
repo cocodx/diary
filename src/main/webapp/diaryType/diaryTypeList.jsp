@@ -33,4 +33,5 @@
 
         </tbody>
     </table>
+    <div style="margin-top: 10px ;color: red;font-size: 18px;text-align: center;margin-left: auto;margin-right: auto"><p>${error}</p></div>
 </div>

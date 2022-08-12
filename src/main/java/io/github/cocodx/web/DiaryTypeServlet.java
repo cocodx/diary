@@ -1,5 +1,6 @@
 package io.github.cocodx.web;
 
+import io.github.cocodx.dao.DiaryDao;
 import io.github.cocodx.dao.DiaryTypeDao;
 import io.github.cocodx.model.DiaryType;
 import io.github.cocodx.utils.DbUtil;
@@ -20,6 +21,7 @@ import java.util.List;
 public class DiaryTypeServlet extends HttpServlet {
 
     private DiaryTypeDao diaryTypeDao = new DiaryTypeDao();
+    private DiaryDao diaryDao = new DiaryDao();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,7 +39,13 @@ public class DiaryTypeServlet extends HttpServlet {
                 show(connection, req, resp);
             } else if (action.equals("delete")) {
                 String typeId = req.getParameter("typeId");
-                diaryTypeDao.deleteByTypeId(typeId, connection);
+                //判断 diaryCount不大于0 就删除
+                Integer count = diaryDao.selectCountByTypeId(typeId,connection);
+                if(count>0){
+                    req.setAttribute("error","当前日记分类下有日记数据，不能删除！");
+                }else{
+                    diaryTypeDao.deleteByTypeId(typeId, connection);
+                }
                 show(connection, req, resp);
             } else if (action.equals("preSave")){
                 String typeId = req.getParameter("typeId");

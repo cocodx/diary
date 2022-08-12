@@ -233,4 +233,21 @@ public class DiaryDao {
         preparedStatement.execute();
         preparedStatement.close();
     }
+
+    /**
+     * 根据typeId 查找 数据条数
+     * @param typeId
+     * @param connection
+     * @return
+     */
+    public Integer selectCountByTypeId(String typeId, Connection connection) throws SQLException {
+        String sql = "select count(*) as data_count from t_diary where type_id = "+typeId;
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        Integer result = null;
+        while (resultSet.next()){
+            result = resultSet.getInt("data_count");
+        }
+        return result;
+    }
 }
