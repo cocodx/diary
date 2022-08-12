@@ -105,4 +105,17 @@ public class DiaryTypeDao {
         preparedStatement.execute();
         preparedStatement.close();
     }
+
+    /**
+     * 插入 日记分类数据
+     * @param typeName
+     * @param connection
+     */
+    public void insert(String typeName, Connection connection) throws SQLException {
+        StringBuffer stringBuffer = new StringBuffer("insert into t_diary_type (type_id,type_name) values (null,?)");
+        PreparedStatement preparedStatement = connection.prepareStatement(stringBuffer.toString());
+        preparedStatement.setString(1,typeName);
+        preparedStatement.execute();
+        preparedStatement.close();
+    }
 }

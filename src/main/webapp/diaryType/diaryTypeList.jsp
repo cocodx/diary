@@ -13,6 +13,9 @@
         <img src="${pageContext.request.contextPath}/images/list_icon.png"/>
         日记分类列表
     </div>
+    <div style="margin: 10px">
+        <button class="btn btn-primary" onclick="javascript:window.location='diaryType?action=preSave'">添加日记分类</button>
+    </div>
     <table class="table table-striped table-bordered table-hover">
         <thead>
             <tr>

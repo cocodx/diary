@@ -4,6 +4,7 @@ import io.github.cocodx.dao.DiaryDao;
 import io.github.cocodx.dao.DiaryTypeDao;
 import io.github.cocodx.model.DiaryType;
 import io.github.cocodx.utils.DbUtil;
+import io.github.cocodx.utils.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -49,14 +50,21 @@ public class DiaryTypeServlet extends HttpServlet {
                 show(connection, req, resp);
             } else if (action.equals("preSave")){
                 String typeId = req.getParameter("typeId");
-                DiaryType diaryType = diaryTypeDao.selectOne(typeId,connection);
-                req.setAttribute("diaryType",diaryType);
+                if (StringUtils.isNotEmpty(typeId)){
+                    DiaryType diaryType = diaryTypeDao.selectOne(typeId,connection);
+                    req.setAttribute("diaryType",diaryType);
+                }
                 req.setAttribute("mainPage","diaryType/diaryTypeInfo.jsp");
                 req.getRequestDispatcher("mainTemp.jsp").forward(req,resp);
             } else if (action.equals("save")){
                 String typeId = req.getParameter("typeId");
                 String typeName = req.getParameter("typeName");
-                diaryTypeDao.update(typeId,typeName, connection);
+                if (StringUtils.isNotEmpty(typeId)){
+                    diaryTypeDao.update(typeId,typeName, connection);
+                }else{
+                    diaryTypeDao.insert(typeName,connection);
+                }
+
                 show(connection, req, resp);
             }
         }
