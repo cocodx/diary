@@ -3,6 +3,7 @@ package io.github.cocodx.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * @author amazfit
@@ -14,5 +15,11 @@ public class DateUtils {
 
     public static Date parseDay(String dateStr) throws ParseException {
         return simpleDateFormat.parse(dateStr);
+    }
+
+    public static String SIMPLE_UUID (){
+        String s = UUID.randomUUID().toString();
+        s.replaceAll("-","");
+        return s;
     }
 }

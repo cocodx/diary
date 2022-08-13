@@ -24,7 +24,7 @@
                     <li class="active"><a href="#"><i class="icon-home"></i>&nbsp;主页</a></li>
                     <li class="active"><a href="diary?action=add"><i class="icon-pencil"></i>&nbsp;写日记</a></li>
                     <li class="active"><a href="diaryType?action=show"><i class="icon-book"></i>&nbsp;日记分类管理</a></li>
-                    <li class="active"><a href="#"><i class="icon-user"></i>&nbsp;个人中心</a></li>
+                    <li class="active"><a href="me?action=show"><i class="icon-user"></i>&nbsp;个人中心</a></li>
                 </ul>
             </div>
             <form name="myForm" class="navbar-form pull-right" method="post" action="main?all=true">
@@ -47,10 +47,10 @@
                     个人中心
                 </div>
                 <div class="user_image animate__animated animate__shakeX">
-                    <img src="${pageContext.request.contextPath}/images/user.jpeg" alt="">
+                    <img src="me?action=getImages&imageName=${currentUser.imageName}" alt="">
                 </div>
-                <div class="nickName">苦逼屌丝</div>
-                <div class="animate__animated animate__shakeY userSign">生活是一种态度</div>
+                <div class="nickName" style="padding-top:10px ">${currentUser.nickName}</div>
+                <div class="animate__animated animate__shakeY userSign">${currentUser.mood}</div>
             </div>
 
             <div class="data_list">

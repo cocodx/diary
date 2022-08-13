@@ -40,4 +40,21 @@ public class UserDao {
         }
         return user;
     }
+
+    /**
+     * 更新 用户信息
+     * @param connection
+     * @param user
+     */
+    public void update(Connection connection, User user) throws SQLException {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("update t_user set nick_name=?,mood=?,image_name=? where user_id=?");
+        PreparedStatement preparedStatement = connection.prepareStatement(stringBuffer.toString());
+        preparedStatement.setString(1,user.getNickName());
+        preparedStatement.setString(2,user.getMood());
+        preparedStatement.setString(3, user.getImageName());
+        preparedStatement.setLong(4,user.getUserId());
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+    }
 }
