@@ -21,7 +21,7 @@
             <a class="brand" href="#">屌丝的日记本</a>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li class="active"><a href="#"><i class="icon-home"></i>&nbsp;主页</a></li>
+                    <li class="active"><a href="main?all=true"><i class="icon-home"></i>&nbsp;主页</a></li>
                     <li class="active"><a href="diary?action=add"><i class="icon-pencil"></i>&nbsp;写日记</a></li>
                     <li class="active"><a href="diaryType?action=show"><i class="icon-book"></i>&nbsp;日记分类管理</a></li>
                     <li class="active"><a href="me?action=show"><i class="icon-user"></i>&nbsp;个人中心</a></li>
