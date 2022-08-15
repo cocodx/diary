@@ -160,7 +160,7 @@ public class DiaryServlet extends HttpServlet {
         try {
             connection = DbUtil.connection();
             List<DiaryType> diaryTypes = diaryTypeDao.selectList(connection);
-            request.setAttribute("diaryTypes",diaryTypes);
+            request.setAttribute("diaryTypesList",diaryTypes);
             request.setAttribute("mainPage", "diary/addDiary.jsp");
             request.getRequestDispatcher("mainTemp.jsp").forward(request,response);
         } catch (ServletException | IOException | SQLException | ClassNotFoundException e) {
