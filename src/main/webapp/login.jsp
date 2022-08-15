@@ -52,11 +52,11 @@
                 </div>
             </form>
 
-            <form action="" class="sign-up-form">
+            <form action="register" class="sign-up-form" onsubmit="return checkForm1()">
                 <h2 class="title">注册</h2>
                 <div class="input-field">
                     <i class="fas fa-user"></i>
-                    <input type="text" placeholder="用户名">
+                    <input type="text" placeholder="用户名" id="registerName" name="registerName">
                 </div>
                 <div class="input-field">
                     <i class="fas fa-envelope"></i>
@@ -64,8 +64,9 @@
                 </div>
                 <div class="input-field">
                     <i class="fas fa-lock"></i>
-                    <input type="password" placeholder="密码">
+                    <input type="password" placeholder="密码" id="registerPassword" name="registerPassword">
                 </div>
+                <font id="error1" color="red">${error1}</font>
                 <input type="submit" value="注册" class="btn solid">
 
                 <p class="social-text">或者使用社交平台登录</p>

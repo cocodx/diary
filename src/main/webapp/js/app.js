@@ -23,3 +23,19 @@ function checkForm(){
     }
     return true;
 }
+
+function checkForm1(){
+    var userName=document.getElementById("registerName").value;
+    var password=document.getElementById("registerPassword").value;
+    if(userName==null || userName==""){
+        document.getElementById("error1").innerHTML="用户名不能为空";
+        return false;
+    }
+    if(password==null || password==""){
+        document.getElementById("error1").innerHTML="密码不能为空";
+        console.log("密码不能为空")
+        return false;
+    }
+    return true;
+}
+
